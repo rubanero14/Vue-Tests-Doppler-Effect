@@ -5,22 +5,22 @@
   <div class="container">
     <div class="circle" @click="reset" :style="{ 'background': this.finalColor, 'transform':   this.transform }"></div>
   </div>
-  <footer class="my-3">
+  <footer>
     <div class="container">
       <div class="row">
         <div class="col-12 col-md-6 col-lg-4">
-          <div class="d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center justify-content-between mb-3 mb-md-0">
             <label class="me-2">-100</label>
             <input v-model="inputValue" @change="changeColors();" @input="changeColors();" 
-              class="w-100 mb-3 mb-md-0" id="inputRange" type="range" :min="min" :max="max" step="5">
+              class="w-100" id="inputRange" type="range" :min="min" :max="max" step="5">
             <label class="ms-2">100</label>
           </div>
         </div>
         <div class="col-12 col-md-6 col-lg-4">
-          <div class="d-flex align-items-center">
+          <div class="d-flex align-items-center justify-content-center">
               <label class="mb-3 mb-md-0 me-2">Enter Velocity (km/s):</label>
               <input v-model="inputValue" @input="changeColors();"
-              class="form-control w-auto mb-3 mb-md-0" type="number">
+              class="form-control w-25 mb-3 mb-md-0" type="type">
           </div>
         </div>
         <div class="col-12 col-md-6 col-lg-4">
@@ -96,12 +96,12 @@ body {
 }
 
 header {
-  margin: 30px auto;
+  margin: 15px auto ;
   text-align: center;
 }
 
 footer {
-  margin: 30px auto;
+  margin: 0 auto 30px;
   text-align: center;
 }
 
