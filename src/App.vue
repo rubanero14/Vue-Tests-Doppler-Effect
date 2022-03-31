@@ -1,13 +1,13 @@
 <template>
   <div class="container">
-    <div class="circle" :style="{ 'background': this.finalColor, 'transform': this.transform }">
-      <p v-if="this.inputValue < 0">Sun</p>
-      <p v-else-if="this.inputValue == 0">Giant Sun</p>
-      <p v-else>Red Giant</p>
+    <div class="circle" :style="{ 'background': this.finalColor, 'transform':   this.transform }">
+      <p v-if="inputValue < -10" class="text-light">Blue Star</p>
+      <p v-else-if="inputValue > 10" class="text-light">Red Star</p>
+      <p v-else class="text-secondary">Yellow Star</p>
     </div>
     <div class="top-left">
       <div class="d-flex align-items-center mb-5">
-        <input v-model="inputValue" @input="changeColors();" class="w-100" id="inputRange" type="range" :min="min" :max="max" step="5">
+        <input v-model="inputValue" @change="changeColors();" @input="changeColors();" class="w-100" id="inputRange" type="range" :min="min" :max="max" step="5">
         <label class="ms-2" for="inputValue">{{ inputValue }}</label>
       </div>
       <div class="bottom-left">
@@ -25,43 +25,18 @@
 export default {
   data(){
     return {
-      inputValue: -100,
+      inputValue:'',
       velocity: 0,
       min: -100,
       max: 100,
-      green: 255,
-      yellow: 'rgb(255,255,0)',
+      red: 0,
+      green: 0,
+      blue: 255,
       finalColor: '',
       transform: 0,
     };
   },
   methods: {
-    changeColors(){
-      if (this.inputValue < 0){
-        this.green = 165 - (this.inputValue * 0.9);
-        this.finalColor = 'rgb(255,'+this.green+',0)';
-        this.transform = 'scale('+(2.5 - this.inputValue*(-0.015))+')';
-        console.log('orange activated');
-        console.log('Final color '+this.finalColor);
-        console.log('Green '+this.green);
-        console.log('Transform '+this.transform);
-      } else if (this.inputValue > 0){
-        this.green = 165 - (this.inputValue * 1.65);
-        this.finalColor = 'rgb(255,'+this.green+',0)';
-        this.transform = 'scale('+(1.5 + this.inputValue*0.015)+')';
-        console.log('red activated');
-        console.log('Final color '+this.finalColor);
-        console.log('Green '+this.green);
-        console.log('Transform '+this.transform);
-      } else {
-        this.green = 165;
-        this.finalColor = this.yellow; 
-        console.log('yellow activated');
-        console.log('Final color '+this.finalColor);
-        console.log('Green '+this.green);
-        console.log('Transform '+this.transform);
-      }
-    },
     velocityControl(){
       if(this.velocity < this.min){
         this.min = -100;
@@ -69,8 +44,53 @@ export default {
       } else if(this.velocity > this.max){
         this.max = 100;
         this.velocity = this.max;
+      } else if(this.velocity == ''){
+        this.velocity = 0;
       } else {
-        this.inputValue = this.velocity;
+        this.inputValue = parseInt(this.velocity);
+        console.log(typeof this.inputValue, this.inputValue);
+      }
+    },
+  },
+  watch: {
+    inputValue: function changeColors(){
+      if (this.inputValue < 0){
+        this.red = 255 + (this.inputValue * 2.55);
+        this.blue = -(this.inputValue * 2.55);
+        this.green = 255 + (this.inputValue * 2.55);
+        this.finalColor = 'rgb('+ this.red + ',' + this.green + ',' + this.blue + ')';
+        this.transform = 'scale('+(2.5 - this.inputValue*0.015)+')';
+        console.log('blue activated');
+        console.log('Final color '+this.finalColor);
+        console.log('Green '+this.green);
+        console.log('Red '+this.red);
+        console.log('Blue '+this.blue);
+        console.log('Transform '+this.transform);
+      } else if (this.inputValue > 0){
+        this.red = 255;
+        this.green = 255 - (this.inputValue * 2.55);
+        this.blue = 0;
+        this.finalColor = 'rgb('+ this.red + ',' + this.green + ',' + this.blue + ')';
+        this.transform = 'scale('+(2.5 + this.inputValue*(-0.015))+')';
+        console.log('red activated');
+        console.log('Final color '+this.finalColor);
+        console.log('Green '+this.green);
+        console.log('Red '+this.red);
+        console.log('Blue '+this.blue);
+        console.log('Transform '+this.transform);
+        console.log('inputvalue '+this.inputValue);
+      } else {
+        this.green = 255 - (this.inputValue * 2.55);
+        this.red = 255;
+        this.blue = 0;
+        this.finalColor = 'rgb('+ this.red + ',' + this.green + ',' + this.blue + ')';
+        this.transform = 'scale('+(2.5 + this.inputValue*0.015)+')';
+        console.log('yellow activated');
+        console.log('Final color '+this.finalColor);
+        console.log('Green '+this.green);
+        console.log('Red '+this.red);
+        console.log('Blue '+this.blue);
+        console.log('Transform '+this.transform);
       }
     },
   },
@@ -113,6 +133,7 @@ label {
 p {
   margin: 60px auto;
   text-align: center;
+  transition: all 0.3s ease-in-out;
 }
 
 .circle {
@@ -122,7 +143,8 @@ p {
   border-radius: 100%;
   margin: 40vh auto;
   transition: all 0.3s ease-in-out;
-  background: yellow;
+  background: rgb(255,255,0);
+  transform: scale(2.5);
 }
 
 @media (max-width: 992px){
