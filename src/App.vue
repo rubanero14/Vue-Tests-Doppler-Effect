@@ -124,7 +124,7 @@ label {
   .circle {
     height: 100px;
     width: 100px;
-    margin: 30vh auto;
+    margin: 25vh auto;
   }
 }
 </style>
