@@ -20,7 +20,7 @@
           <div class="d-flex align-items-center justify-content-center">
               <label class="mb-3 mb-md-0 me-2">Enter Velocity (km/s):</label>
               <input v-model="inputValue" @input="changeColors();"
-              class="form-control w-25 mb-3 mb-md-0" type="type">
+              class="form-control text-center w-25 mb-3 mb-md-0" type="type">
           </div>
         </div>
         <div class="col-12 col-md-6 col-lg-4">
