@@ -1,14 +1,20 @@
 <template>
   <div class="container">
-    <div class="circle" :class="{ 'red' : red, 'yellow': yellow, 'orange': orange }">
-      <p v-if="yellow">Sun</p>
-      <p v-if="orange">Giant Sun</p>
-      <p v-if="red">Red Giant</p>
+    <div class="circle" :style="{ 'background': this.finalColor, 'transform': this.transform }">
+      <p v-if="this.inputValue < 0">Sun</p>
+      <p v-else-if="this.inputValue == 0">Giant Sun</p>
+      <p v-else>Red Giant</p>
     </div>
-    <div class="top-left d-flex align-items-center">
-        <input v-model="inputValue" @change="setColor();changeColors();" id="inputRange" type="range" min="1" max="3" step="1">
+    <div class="top-left">
+      <div class="d-flex align-items-center mb-5">
+        <input v-model="inputValue" @input="changeColors();" class="w-100" id="inputRange" type="range" :min="min" :max="max" step="5">
         <label class="ms-2" for="inputValue">{{ inputValue }}</label>
       </div>
+      <div>
+        <label class="mb-2">Enter Velocity (km/s):</label>
+        <input v-model="velocity" @change="velocityControl" class="form-control" placeholder="Enter velocity.." type="text">
+      </div>
+    </div>
   </div>
 </template>
 
@@ -16,34 +22,53 @@
 export default {
   data(){
     return {
-      inputValue: 0,
-      red: false,
-      yellow: true,
-      orange: false,
+      inputValue: -100,
+      velocity: 0,
+      min: -100,
+      max: 100,
+      green: 255,
+      yellow: 'rgb(255,255,0)',
+      finalColor: '',
+      transform: 0,
     };
   },
   methods: {
     changeColors(){
-      if (this.colorCode === 3){
-        this.red = true;
-        this.orange = false;
-        this.yellow = false;
-        console.log(this.red,'red');
-      } else if (this.colorCode === 2){
-        this.orange = true;
-        this.red = false;
-        this.yellow = false;
-        console.log(this.orange,'orange');
+      if (this.inputValue < 0){
+        this.green = 165 - (this.inputValue * 0.9);
+        this.finalColor = 'rgb(255,'+this.green+',0)';
+        this.transform = 'scale('+(2.5 - this.inputValue*(-0.015))+')';
+        console.log('orange activated');
+        console.log('Final color '+this.finalColor);
+        console.log('Green '+this.green);
+        console.log('Transform '+this.transform);
+      } else if (this.inputValue > 0){
+        this.green = 165 - (this.inputValue * 1.65);
+        this.finalColor = 'rgb(255,'+this.green+',0)';
+        this.transform = 'scale('+(1.5 + this.inputValue*0.015)+')';
+        console.log('red activated');
+        console.log('Final color '+this.finalColor);
+        console.log('Green '+this.green);
+        console.log('Transform '+this.transform);
       } else {
-        this.yellow = true;
-        this.orange = false;
-        this.red = false;
-        console.log(this.yellow,'yellow');
+        this.green = 165;
+        this.finalColor = this.yellow; 
+        console.log('yellow activated');
+        console.log('Final color '+this.finalColor);
+        console.log('Green '+this.green);
+        console.log('Transform '+this.transform);
       }
     },
-    setColor(){
-      this.colorCode = parseInt(this.inputValue);
-      console.log(typeof this.colorCode, this.colorCode);
+    velocityControl(){
+      if(this.velocity < this.min){
+        this.min = -100;
+        this.velocity = this.min;
+      } else if(this.velocity > this.max){
+        this.max = 100;
+        this.velocity = this.max;
+      } else {
+        this.inputValue = this.velocity;
+      }
     },
   },
 }
@@ -51,8 +76,9 @@ export default {
 
 <style>
 @import url('https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css');
-* {
+body {
   box-sizing: border-box;
+  background: #ccc;
 }
 
 .top-left {
@@ -79,22 +105,20 @@ p {
   width: 150px;
   border: 1px solid #ccc;
   border-radius: 100%;
-  background: yellow;
-  margin: 50vh auto;
+  margin: 40vh auto;
   transition: all 0.3s ease-in-out;
-}
-
-.red {
-  background: red;
-  transform: scale(3);
-}
-
-.orange {
-  background: orange;
-  transform: scale(1.5);
-}
-
-.yellow {
   background: yellow;
+}
+
+@media (max-width: 992px){
+  .circle {
+    height: 100px;
+    width: 100px;
+  }
+  
+  p {
+    margin: 37px auto;
+    text-align: center;
+  }
 }
 </style>
