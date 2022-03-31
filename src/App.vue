@@ -10,9 +10,12 @@
         <input v-model="inputValue" @input="changeColors();" class="w-100" id="inputRange" type="range" :min="min" :max="max" step="5">
         <label class="ms-2" for="inputValue">{{ inputValue }}</label>
       </div>
-      <div>
+      <div class="bottom-left">
         <label class="mb-2">Enter Velocity (km/s):</label>
         <input v-model="velocity" @change="velocityControl" class="form-control" placeholder="Enter velocity.." type="text">
+      </div>
+      <div>
+        <a class="btn btn-secondary top-right" target="_blank" href="https://github.com/rubanero14/Vue-Tests-Doppler-Effect">Source Code</a>
       </div>
     </div>
   </div>
@@ -84,6 +87,18 @@ body {
 .top-left {
   position: fixed;
   top: 20px;
+  left: 20px;
+}
+
+.top-right {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+}
+
+.bottom-left {
+  position: fixed;
+  bottom: 20px;
   left: 20px;
 }
 
