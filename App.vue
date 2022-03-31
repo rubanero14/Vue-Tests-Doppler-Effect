@@ -96,12 +96,12 @@ body {
 }
 
 header {
-  margin: 15px auto ;
+  margin: 30px auto ;
   text-align: center;
 }
 
 footer {
-  margin: 0 auto 30px;
+  margin: 30px auto;
   text-align: center;
 }
 
