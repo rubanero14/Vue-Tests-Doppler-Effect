@@ -193,5 +193,9 @@ section.dark {
     width: 100px;
     margin: 25vh auto;
   }
+
+  h1 {
+    font-size: 25px;
+  }
 }
 </style>
