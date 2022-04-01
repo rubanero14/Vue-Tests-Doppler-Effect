@@ -2,7 +2,7 @@
   <section :class="{ dark: darkMode }">
     <header>
         <h1 class="mb-0"><i class="bi bi-stars me-2"></i>Doppler's Effect Demo<i class="bi bi-stars ms-2"></i></h1>
-        <transition mpode="out-in">
+        <transition name="flip-side" mode="out-in">
             <button v-if="darkMode" @click="darkModeControl" class="btn btn-secondary btn-rounded">
               <i class="bi bi-brightness-high"></i>
             </button>
@@ -53,7 +53,7 @@ export default {
       green: 0,
       blue: 255,
       backgroundColor: '',
-      transform: 0,
+      transform: 'scale(2.5)',
       darkMode: false,
     };
   },
@@ -95,7 +95,7 @@ export default {
       // to reset circle's state back to original state
       this.inputValue = 0;
       this.backgroundColor = '';
-      this.transform = null;
+      this.transform = 'scale('+(2.5 + this.inputValue*0.015)+')';  
     },
   },
 }
@@ -115,6 +115,7 @@ section {
   color: #333;
   padding: 20px;
   transition: all 0.3s ease-in-out;
+  height: 100vh;
 }
 
 header {
@@ -127,7 +128,7 @@ h1 {
 }
 
 footer {
-  margin: 30px auto;
+  margin: 30px auto 0;
   text-align: center;
 }
 
@@ -143,7 +144,6 @@ label {
   margin: 30vh auto;
   transition: all 0.3s ease-in-out;
   background: rgb(255,255,0);
-  transform: scale(2.5);
 }
 
 .bi-brightness-high::before, .bi.bi-moon::before {
@@ -157,22 +157,22 @@ label {
 
 .btn-rounded {
   position: fixed;
-  top: 15px;
-  right: 15px;
-  height: 30px;
-  width: 30px;
+  top: 30px;
+  right: 30px;
+  height: 40px;
+  width: 40px;
   border-radius: 100%;
   padding: 0;
 }
 
-.v-enter-from, .v-leave-to {
+.flip-side-enter-from, .flip-side-leave-to {
   opacity: 0;
   transform: rotateY(180deg);
 }
-.v-enter-active, .v-leave-active {
+.flip-side-enter-active, .flip-side-leave-active {
   transition: all 0.5s ease-out;
 }
-.v-enter-to, .v-leave-from {
+.flip-side-enter-to, .flip-side-leave-from {
   opacity: 1;
   transform: rotateY(0deg);
 }
@@ -196,6 +196,12 @@ section.dark {
 
   h1 {
     font-size: 25px;
+  }
+
+  .btn-rounded {
+    position: fixed;
+    top: 10px;
+    right: 10px;
   }
 }
 </style>
