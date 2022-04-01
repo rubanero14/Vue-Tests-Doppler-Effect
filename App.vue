@@ -72,7 +72,7 @@ export default {
         this.blue = -(this.inputValue * 2.55);
         this.green = 255 + (this.inputValue * 2.55);
         this.backgroundColor = 'rgb('+ this.red + ',' + this.green + ',' + this.blue + ')';
-        this.transform = 'scale('+(2.3 - this.inputValue*0.015)+')';
+        this.transform = 'scale('+(2.0 - this.inputValue*0.015)+')';
       } else if (this.inputValue > 0){
         this.red = 255;
         this.green = 255 - (this.inputValue * 2.55);
@@ -119,7 +119,7 @@ section {
 }
 
 header {
-  margin: 30px auto ;
+  margin: 50px auto 30px;
   text-align: center;
 }
 
@@ -167,7 +167,7 @@ label {
 
 .flip-side-enter-from, .flip-side-leave-to {
   opacity: 0;
-  transform: rotateY(180deg);
+  transform: rotateY(900deg);
 }
 .flip-side-enter-active, .flip-side-leave-active {
   transition: all 0.5s ease-out;
