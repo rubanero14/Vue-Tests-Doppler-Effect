@@ -1,38 +1,47 @@
 <template>
-  <header>
-      <h1 class="mb-0"><i class="bi bi-stars me-2"></i>Doppler Effect Demo<i class="bi bi-stars ms-2"></i></h1>
-  </header>
-  <div class="container">
-    <div class="circle" @click="reset" :style="{ 'background': this.finalColor, 'transform':   this.transform }"></div>
-  </div>
-  <footer>
+  <section :class="{ dark: darkMode }">
+    <header>
+        <h1 class="mb-0"><i class="bi bi-stars me-2"></i>Doppler's Effect Demo<i class="bi bi-stars ms-2"></i></h1>
+        <transition mpode="out-in">
+            <button v-if="darkMode" @click="darkModeControl" class="btn btn-secondary btn-rounded">
+              <i class="bi bi-brightness-high"></i>
+            </button>
+            <button v-else @click="darkModeControl" class="btn btn-secondary btn-rounded">
+              <i class="bi bi-moon"></i>
+            </button>
+        </transition>
+    </header>
     <div class="container">
-      <div class="row">
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="d-flex align-items-center justify-content-between mb-3 mb-md-0">
-            <label class="me-2">-100</label>
-            <input v-model="inputValue" @change="changeColors();" @input="changeColors();" 
-              class="w-100" id="inputRange" type="range" :min="min" :max="max" step="5">
-            <label class="ms-2">100</label>
+      <div class="circle" @click="reset" :style="{ 'background': this.backgroundColor, 'transform': this.transform }"></div>
+    </div>
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-12 col-md-4 order-1 order-md-2">
+            <div class="d-flex align-items-center justify-content-between mb-3 mb-md-0">
+              <label class="me-2">-100</label>
+              <input v-model="inputValue" @input="changeColors();" 
+                class="w-100" type="range" :min="min" :max="max" step="5">
+              <label class="ms-2">100</label>
+            </div>
           </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="d-flex align-items-center justify-content-center">
-              <label class="mb-3 mb-md-0 me-2">Enter Velocity (km/s):</label>
-              <input v-model="inputValue" @input="changeColors();"
-              class="form-control text-center w-25 mb-3 mb-md-0" type="type">
+          <div class="col-12 col-md-4 order-2 order-md-1">
+            <div class="d-flex align-items-center justify-content-center">
+                <label class="mb-3 mb-md-0 me-2">Enter Velocity (km/s):</label>
+                <input v-model="inputValue" @input="changeColors();"
+                class="form-control text-center w-25 mb-3 mb-md-0" type="number">
+            </div>
           </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-4">
-          <a class="btn btn-secondary w-100" target="_blank" href="https://github.com/rubanero14/Vue-Tests-Doppler-Effect">
-            <i class="bi bi-code-slash me-2"></i>Source Code
-          </a>
+          <div class="col-12 col-md-4 order-3">
+            <a class="btn btn-secondary w-100" target="_blank" href="https://github.com/rubanero14/Vue-Tests-Doppler-Effect">
+              <i class="bi bi-code-slash me-2"></i>Source Code
+            </a>
+          </div>
         </div>
       </div>
-    </div>
-  </footer>
+    </footer>
+  </section>
 </template>
-
 <script>
 export default {
   data(){
@@ -43,43 +52,49 @@ export default {
       red: 0,
       green: 0,
       blue: 255,
-      finalColor: '',
+      backgroundColor: '',
       transform: 0,
+      darkMode: false,
     };
   },
   methods: {
     changeColors(){
       // To set boundary for min and max value to be inputted in input.form-control
-      if(this.inputValue < this.min){
+      if (this.inputValue < this.min){
           this.inputValue = this.min;
-        } else if(this.inputValue > this.max){
+        } else if (this.inputValue > this.max){
           this.inputValue = this.max;
         }
 
-      // Logic for setting background and scale size based on input value
+      // To set background color and scale size based on input value
       if (this.inputValue < 0){
         this.red = 255 + (this.inputValue * 2.55);
         this.blue = -(this.inputValue * 2.55);
         this.green = 255 + (this.inputValue * 2.55);
-        this.finalColor = 'rgb('+ this.red + ',' + this.green + ',' + this.blue + ')';
+        this.backgroundColor = 'rgb('+ this.red + ',' + this.green + ',' + this.blue + ')';
         this.transform = 'scale('+(2.3 - this.inputValue*0.015)+')';
       } else if (this.inputValue > 0){
         this.red = 255;
         this.green = 255 - (this.inputValue * 2.55);
         this.blue = 0;
-        this.finalColor = 'rgb('+ this.red + ',' + this.green + ',' + this.blue + ')';
+        this.backgroundColor = 'rgb('+ this.red + ',' + this.green + ',' + this.blue + ')';
         this.transform = 'scale('+(2.5 + this.inputValue*(-0.015))+')';
       } else {
         this.green = 255 - (this.inputValue * 2.55);
         this.red = 255;
         this.blue = 0;
-        this.finalColor = 'rgb('+ this.red + ',' + this.green + ',' + this.blue + ')';
+        this.backgroundColor = 'rgb('+ this.red + ',' + this.green + ',' + this.blue + ')';
         this.transform = 'scale('+(2.5 + this.inputValue*0.015)+')';
       }
     },
+    darkModeControl(){
+      // to toggle dark mode view
+      return this.darkMode = !this.darkMode;
+    },
     reset(){
+      // to reset circle's state back to original state
       this.inputValue = 0;
-      this.finalColor = '';
+      this.backgroundColor = '';
       this.transform = null;
     },
   },
@@ -88,16 +103,27 @@ export default {
 
 <style>
 @import url('https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css');
-@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css");
+@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500&display=swap');
 
-body {
+section {
   box-sizing: border-box;
   background: #ccc;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  color: #333;
+  padding: 20px;
+  transition: all 0.3s ease-in-out;
 }
 
 header {
   margin: 30px auto ;
   text-align: center;
+}
+
+h1 {
+  font-size: 30px;
 }
 
 footer {
@@ -119,6 +145,47 @@ label {
   background: rgb(255,255,0);
   transform: scale(2.5);
 }
+
+.bi-brightness-high::before, .bi.bi-moon::before {
+    color: #ccc;
+}
+
+.btn-secondary:focus, .btn-secondary:focus-visible, .btn-secondary:active:focus {
+  border-color: none;
+  box-shadow: 0 1px 4px 0 rgb(0, 0, 0, 0.5);
+}
+
+.btn-rounded {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  height: 30px;
+  width: 30px;
+  border-radius: 100%;
+  padding: 0;
+}
+
+.v-enter-from, .v-leave-to {
+  opacity: 0;
+  transform: rotateY(180deg);
+}
+.v-enter-active, .v-leave-active {
+  transition: all 0.5s ease-out;
+}
+.v-enter-to, .v-leave-from {
+  opacity: 1;
+  transform: rotateY(0deg);
+}
+
+/* Dark Mode */
+section.dark {
+  background: #333;
+  color: #ccc;
+} 
+
+.dark .circle {
+  border: 1px solid #333;
+} 
 
 @media (max-width: 992px){
   .circle {
